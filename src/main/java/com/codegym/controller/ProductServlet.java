@@ -5,6 +5,7 @@ import com.codegym.dao.category.CategoryDao;
 import com.codegym.dao.product.ProductDao;
 import com.codegym.model.Category;
 import com.codegym.model.Product;
+import com.codegym.model.ProductView;
 import com.codegym.service.category.CategoryService;
 import com.codegym.service.category.ICategoryService;
 import com.codegym.service.product.IProductService;
@@ -74,12 +75,12 @@ public class ProductServlet extends HttpServlet {
     }
 
     private void showListAndSearchForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Product> products = productService.findAll();
+        List<ProductView> productsViews = productService.findAllProductView();
         String q = request.getParameter("q");
         if (q != null) {
-            products = productService.findAllByName(q);
+            productsViews = productService.findAllByName(q);
         }
-        request.setAttribute("products", products);
+        request.setAttribute("productsViews", productsViews);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/product/list.jsp");
         dispatcher.forward(request, response);
     }

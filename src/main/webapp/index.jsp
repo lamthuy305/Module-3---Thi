@@ -6,6 +6,6 @@
     <title>$Title$</title>
   </head>
   <body>
-  $END$
+  <a href="/products" class="btn btn-primary">Danh sách sản phẩm</a>
   </body>
 </html>

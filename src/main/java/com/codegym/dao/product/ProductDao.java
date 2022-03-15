@@ -2,6 +2,7 @@ package com.codegym.dao.product;
 
 import com.codegym.dao.DBConnection;
 import com.codegym.model.Product;
+import com.codegym.model.ProductView;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +17,8 @@ public class ProductDao implements IProductDao {
     public static final String SQL_ADD_NEW_PRODUCT = "INSERT INTO products (name, price, quantity, color, description, category_id) VALUES (?,?,?,?,?,?);";
     public static final String SQL_UPDATE_PRODUCT = "UPDATE products SET name = ?, price= ?, quantity = ?, color = ?, description = ?, category_id = ? WHERE id = ?;";
     public static final String SQL_DELETE_PRODUCT = "DELETE FROM products WHERE id = ?;";
-    public static final String SQL_FIND_PRODUCT_BY_NAME = "SELECT * FROM products WHERE name like ?;";
+    public static final String SQL_FIND_PRODUCT_BY_NAME = "SELECT p.id,p.name,p.price,p.quantity,p.color,p.quantity,p.description,c.name FROM products p join category c on p.category_id = c.id Where p.name like ?;";
+    public static final String SQL_ALL_PRODUCTVIEW = "SELECT p.id,p.name,p.price,p.quantity,p.color,p.quantity,p.description,c.name FROM products p join category c on p.category_id = c.id;";
     private Connection connection = DBConnection.getConnection();
 
     @Override
@@ -112,28 +114,51 @@ public class ProductDao implements IProductDao {
     }
 
     @Override
-    public List<Product> findAllByName(String q) {
-        List<Product> products = new ArrayList<>();
+    public List<ProductView> findAllByName(String q) {
+        List<ProductView> productsViews = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_PRODUCT_BY_NAME);
             preparedStatement.setString(1, q);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                double price = resultSet.getDouble("price");
-                double quantity = resultSet.getDouble("quantity");
+                String name = resultSet.getString("p.name");
+                double price = resultSet.getDouble("p.price");
+                double quantity = resultSet.getDouble("p.quantity");
                 String color = resultSet.getString("color");
-                String description = resultSet.getString("description");
-                int category_id = resultSet.getInt("category_id");
-                Product product = new Product(id, name, price, quantity, color, description, category_id);
-                products.add(product);
+                String description = resultSet.getString("p.description");
+                String category_name = resultSet.getString("c.name");
+                ProductView productView = new ProductView(id, name, price, quantity, color, description, category_name);
+                productsViews.add(productView);
 
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return products;
+        return productsViews;
+    }
+
+    @Override
+    public List<ProductView> findAllProductView() {
+        List<ProductView> productsViews = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_ALL_PRODUCTVIEW);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("p.name");
+                double price = resultSet.getDouble("p.price");
+                double quantity = resultSet.getDouble("p.quantity");
+                String color = resultSet.getString("p.color");
+                String description = resultSet.getString("p.description");
+                String category_name = resultSet.getString("c.name");
+                ProductView productview = new ProductView(id, name, price, quantity, color, description, category_name);
+                productsViews.add(productview);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productsViews;
     }
 }

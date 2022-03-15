@@ -36,8 +36,8 @@
             <label for="description" class="form-label">Mô tả</label>
             <input type="text" class="form-control" id="description" name="description">
         </div>
-        <div>
-            <select name="category_id" id="category_id">
+        <div class="mb-3">
+            <select name="category_id" id="category_id" class="form-label">
                 <c:forEach var="category" items="${categories}">
                     <option value="${category.id}">${category.name}</option>
                 </c:forEach>

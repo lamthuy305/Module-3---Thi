@@ -36,18 +36,18 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="product" items="${products}" varStatus="loop">
+            <c:forEach var="productsView" items="${productsViews}" varStatus="loop">
                 <tr>
                     <td>${loop.count}</td>
-                    <td>${product.name}</td>
-                    <td>${product.price}</td>
-                    <td>${product.quantity}</td>
-                    <td>${product.color}</td>
-                    <td>${product.description}</td>
-                    <td>${product.category_id}</td>
-                    <td><a href="/products?action=edit&id=${product.id}" class="btn btn-primary"><i
+                    <td>${productsView.name}</td>
+                    <td>${productsView.price}</td>
+                    <td>${productsView.quantity}</td>
+                    <td>${productsView.color}</td>
+                    <td>${productsView.description}</td>
+                    <td>${productsView.category_name}</td>
+                    <td><a href="/products?action=edit&id=${productsView.id}" class="btn btn-primary"><i
                             class="fas fa-edit"></i></a></td>
-                    <td><a href="/products?action=delete&id=${product.id}" class="btn btn-danger"><i
+                    <td><a href="/products?action=delete&id=${productsView.id}" class="btn btn-danger"><i
                             class="fas fa-trash"></i></a></td>
                 </tr>
             </c:forEach>

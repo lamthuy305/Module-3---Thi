@@ -3,6 +3,7 @@ package com.codegym.service.product;
 import com.codegym.dao.product.IProductDao;
 import com.codegym.dao.product.ProductDao;
 import com.codegym.model.Product;
+import com.codegym.model.ProductView;
 
 import java.util.List;
 
@@ -39,8 +40,13 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<Product> findAllByName(String q) {
+    public List<ProductView> findAllByName(String q) {
         q = "%" + q + "%";
         return productDao.findAllByName(q);
+    }
+
+    @Override
+    public List<ProductView> findAllProductView() {
+        return productDao.findAllProductView();
     }
 }
